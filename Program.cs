@@ -19,8 +19,9 @@ class Program
             Console.WriteLine("1. Register a Student");
             Console.WriteLine("2. View All Students");
             Console.WriteLine("3. Add a Course");
-            Console.WriteLine("4. Enroll Student in Course");
-            Console.WriteLine("5. View Enrollments");
+            Console.WriteLine("4. View All Students");
+            Console.WriteLine("5. Enroll Student in Course");
+            Console.WriteLine("6. View Enrollments");
             Console.WriteLine("0. Exit");
             Console.Write("\nEnter your choice: ");
 
@@ -38,9 +39,12 @@ class Program
                     AddCourse(courseService);
                     break;
                 case "4":
-                    EnrollStudentInCourse(enrollmentService);
+                    Console.WriteLine("Viewing all students (feature to be implemented)...");
                     break;
                 case "5":
+                    EnrollStudentInCourse(enrollmentService);
+                    break;
+                case "6":
                     Console.WriteLine("Viewing enrollments (feature to be implemented)...");
                     break;
                 case "0":
