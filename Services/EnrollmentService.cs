@@ -44,6 +44,29 @@ public class EnrollmentService {
         return true;
     }
 
-    public List<Student> GetAllStudents() => _context.Students.ToList();
-    public List<Course> GetAllCourses() => _context.Courses.ToList();
+    public void DisplayAllEnrollments() {
+        var studentWithCourses = _context.Students.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToList();
+
+        if (!studentWithCourses.Any())
+        {
+            Console.WriteLine("No students found.");
+            return;
+        }
+        
+        foreach (var student in studentWithCourses) 
+        {
+            Console.WriteLine($"\nStudent: {student.Name} ({student.Email})");
+            if (student.Enrollments.Count == 0)
+            {
+                Console.WriteLine("No enrollments.");
+            }
+            else 
+            {
+                foreach (var enrollment in student.Enrollments)
+                {
+                    Console.WriteLine($" - {enrollment.Course.Name} ({enrollment.Course.Credits} credits)");
+                }
+            }
+        }
+    }
 }

@@ -6,6 +6,10 @@ public class CourseService {
         _context = context;
     }
 
+    public List<Course> GetAllCourses() {
+        return _context.Courses.ToList();
+    }
+
     public bool AddCourse(string name, int credits) {
         if (_context.Courses.Any(c => c.Name.ToLower() == name.ToLower()))
         {

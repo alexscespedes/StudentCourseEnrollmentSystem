@@ -31,21 +31,45 @@ class Program
                 case "1":
                     RegisterStudent(studentService);
                     break;
-
                 case "2":
-                    Console.WriteLine("Viewing all students (feature to be implemented)...");
+                    var students = studentService.GetAllStudents();
+                    if (students.Count == 0)
+                    {
+                        Console.WriteLine("No students found.");
+                        Pause();
+                        return;
+                    }
+                    Console.WriteLine("\nStudents:");
+                    foreach (var s in students) {
+                        Console.WriteLine($"{s.Id}. {s.Name} ({s.Email})");
+                    }
+                    Pause();
                     break;
                 case "3":
                     AddCourse(courseService);
                     break;
                 case "4":
-                    Console.WriteLine("Viewing all students (feature to be implemented)...");
+                    var courses = courseService.GetAllCourses();
+                    if (courses.Count == 0)
+                    {
+                        Console.WriteLine("No courses found.");
+                        Pause();
+                        return;
+                    }
+                    Console.WriteLine("\nCourses:");
+                    foreach (var c in courses) {
+                        Console.WriteLine($"{c.Id}. {c.Name} ({c.Credits})");
+                    }
+                    Pause();
                     break;
                 case "5":
                     EnrollStudentInCourse(enrollmentService);
                     break;
                 case "6":
-                    Console.WriteLine("Viewing enrollments (feature to be implemented)...");
+                    Console.Clear();
+                    Console.WriteLine("== Student Enrollments ==");
+                    enrollmentService.DisplayAllEnrollments();
+                    Pause();
                     break;
                 case "0":
                     exit = true;
@@ -96,11 +120,11 @@ class Program
             Pause();
         }
 
-        void EnrollStudentInCourse(EnrollmentService service) {
+        void EnrollStudentInCourse(EnrollmentService enrollmentService) {
             Console.Clear();
             Console.WriteLine("== Enroll Student in a Course ==");
 
-            var students = service.GetAllStudents();
+            var students = studentService.GetAllStudents();
             if (students.Count == 0)
             {
                 Console.WriteLine("No students found.");
@@ -118,7 +142,7 @@ class Program
                 Console.Write("Invalid ID. Try again: ");
             }
 
-            var courses = service.GetAllCourses();
+            var courses = courseService.GetAllCourses();
             if (courses.Count == 0)
             {
                 Console.WriteLine("No courses found.");
@@ -136,7 +160,7 @@ class Program
                 Console.Write("Invalid ID. Try again: ");
             }
 
-            service.EnrollStudent(studentId, courseId);
+            enrollmentService.EnrollStudent(studentId, courseId);
             Pause();
         }
 

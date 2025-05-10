@@ -9,6 +9,10 @@ public class StudentService {
         _context = context;
     }
 
+    public List<Student> GetAllStudents() {
+         return _context.Students.ToList();
+    }
+
     public bool RegisterStudent(string name, string email, DateTime dateOfBirth) {
         if (!IsValidEmail(email))
         {
