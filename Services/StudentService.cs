@@ -11,7 +11,7 @@ public class StudentService {
     }
 
     public bool RegisterStudent(string name, string email, DateTime dateOfBirth) {
-        if (IsValidEmail(email))
+        if (!IsValidEmail(email))
         {
             Console.WriteLine("Invalid email format.");
             return false;
