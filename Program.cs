@@ -6,6 +6,7 @@ class Program
     {
         using var context = new AppDbContext();
         var studentService = new StudentService(context);
+        var courseService = new CourseService(context);
 
         bool exit = false;
 
@@ -33,7 +34,7 @@ class Program
                     Console.WriteLine("Viewing all students (feature to be implemented)...");
                     break;
                 case "3":
-                    Console.WriteLine("Adding course (feature to be implemented)...");
+                    AddCourse(courseService);
                     break;
                 case "4":
                     Console.WriteLine("Enrolling student (feature to be implemented)...");
@@ -69,6 +70,24 @@ class Program
             }
 
             service.RegisterStudent(name, email, dob);
+            Pause();
+        }
+
+        void AddCourse(CourseService service) {
+            Console.Clear();
+            Console.WriteLine("== Register a New Student ==");
+
+            Console.Write("Course Name: ");
+            string name = Console.ReadLine()!;
+
+            
+            Console.Write("Credits (e.g., 3): ");
+            int credits;
+            while (!int.TryParse(Console.ReadLine(), out credits) || credits <= 0) {
+                Console.Write("Invalid number. Try again: ");
+            }
+
+            service.AddCourse(name, credits);
             Pause();
         }
 
