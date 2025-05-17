@@ -39,6 +39,44 @@ public class StudentService {
         return true;
     }
 
+    public bool EditStudent (int studentId, string? newName, string? newEmail, DateTime? newDob) {
+        var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+        if (student == null)
+        {
+            Console.WriteLine("Student not found");
+            return false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(newEmail) && newEmail != student.Email)
+        {
+            if (!IsValidEmail(newEmail))
+            {
+                Console.WriteLine("Invalid email format.");
+                return false;
+            }
+            if (_context.Students.Any(s => s.Email == newEmail && s.Id != studentId))
+            {
+                Console.WriteLine("Another student with this email already exists.");
+                return false;
+            }
+            student.Email = newEmail;
+        }
+
+        if (!string.IsNullOrWhiteSpace(newName))
+        {
+            student.Name = newName;
+        }
+
+        if (newDob.HasValue)
+        {
+            student.DateOfBirth = newDob.Value;
+        }
+
+        _context.SaveChanges();
+        Console.WriteLine("Student information updated successfully");
+        return true;
+    }
+
     private bool IsValidEmail(string email) {
         return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
     }

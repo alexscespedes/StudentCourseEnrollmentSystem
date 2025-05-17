@@ -19,9 +19,10 @@ class Program
             Console.WriteLine("1. Register a Student");
             Console.WriteLine("2. View All Students");
             Console.WriteLine("3. Add a Course");
-            Console.WriteLine("4. View All Students");
+            Console.WriteLine("4. View All Courses");
             Console.WriteLine("5. Enroll Student in Course");
             Console.WriteLine("6. View Enrollments");
+            Console.WriteLine("7. Edit Student");
             Console.WriteLine("0. Exit");
             Console.Write("\nEnter your choice: ");
 
@@ -70,6 +71,9 @@ class Program
                     Console.WriteLine("== Student Enrollments ==");
                     enrollmentService.DisplayAllEnrollments();
                     Pause();
+                    break;
+                case "7":
+                    EditStudent(studentService);
                     break;
                 case "0":
                     exit = true;
@@ -161,6 +165,55 @@ class Program
             }
 
             enrollmentService.EnrollStudent(studentId, courseId);
+            Pause();
+        }
+
+        void EditStudent (StudentService service)
+        {
+            Console.Clear();
+            Console.WriteLine("== Edit Student ==");
+
+            var students = service.GetAllStudents();
+            if (!students.Any())
+            {
+                Console.WriteLine("No students found.");
+                Pause();
+                return;
+            }
+
+            foreach (var s in students)
+                Console.WriteLine($"{s.Id}. {s.Name} ({s.Email})");
+
+            Console.WriteLine("Enter the ID of the student to edit: ");
+            int studentId;
+            while (!int.TryParse(Console.ReadLine(), out studentId) || !students.Any(s => s.Id == studentId))
+            {
+                Console.Write("Invalid ID. Try again: ");
+            }
+
+            Console.Write("New Name (leave blank to keep current): ");
+            string? newName = Console.ReadLine();
+
+            Console.Write("New Email (leave blank to keep current): ");
+            string? newEmail = Console.ReadLine();
+
+            Console.Write("New Date of Birth (yyyy-mm-dd, blank to keep current): ");
+            string? dobInput = Console.ReadLine();
+
+            DateTime? newDob = null;
+            if (!string.IsNullOrWhiteSpace(dobInput))
+            {
+                if (DateTime.TryParse(dobInput, out DateTime parseDob))
+                {
+                    newDob = parseDob;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid date format. Skipping DOB update.");
+                }
+            }
+
+            service.EditStudent(studentId, newName, newEmail, newDob);
             Pause();
         }
 
