@@ -1,84 +1,55 @@
-﻿namespace StudentCourseEnrollment;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace StudentCourseEnrollment;
 
 class Program
 {
     static void Main(string[] args)
     {
-        using var context = new AppDbContext();
+        var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase("StudentCourseEnrollmentDb").options;
+
+        using var context = new AppDbContext(options);
         var studentService = new StudentService(context);
         var courseService = new CourseService(context);
         var enrollmentService = new EnrollmentService(context);
 
         bool exit = false;
 
-        while(!exit) {
+        while (!exit)
+        {
             Console.Clear();
             Console.WriteLine("========================================");
-            Console.WriteLine("     Welcome to the Enrollment System   ");
+            Console.WriteLine("     Welcome to the Student Course Enrollment System   ");
             Console.WriteLine("========================================");
-            Console.WriteLine("1. Register a Student");
-            Console.WriteLine("2. View All Students");
-            Console.WriteLine("3. Add a Course");
-            Console.WriteLine("4. View All Students");
-            Console.WriteLine("5. Enroll Student in Course");
-            Console.WriteLine("6. View Enrollments");
+            Console.WriteLine("1. Manage Students");
+            Console.WriteLine("2. Manage Courses");
+            Console.WriteLine("3. Manage Enrollments");
             Console.WriteLine("0. Exit");
             Console.Write("\nEnter your choice: ");
 
             string? choice = Console.ReadLine();
 
-            switch (choice) {
+            switch (choice)
+            {
                 case "1":
-                    RegisterStudent(studentService);
+
                     break;
                 case "2":
-                    var students = studentService.GetAllStudents();
-                    if (students.Count == 0)
-                    {
-                        Console.WriteLine("No students found.");
-                        Pause();
-                        return;
-                    }
-                    Console.WriteLine("\nStudents:");
-                    foreach (var s in students) {
-                        Console.WriteLine($"{s.Id}. {s.Name} ({s.Email})");
-                    }
-                    Pause();
+
                     break;
                 case "3":
-                    AddCourse(courseService);
-                    break;
-                case "4":
-                    var courses = courseService.GetAllCourses();
-                    if (courses.Count == 0)
-                    {
-                        Console.WriteLine("No courses found.");
-                        Pause();
-                        return;
-                    }
-                    Console.WriteLine("\nCourses:");
-                    foreach (var c in courses) {
-                        Console.WriteLine($"{c.Id}. {c.Name} ({c.Credits})");
-                    }
-                    Pause();
-                    break;
-                case "5":
-                    EnrollStudentInCourse(enrollmentService);
-                    break;
-                case "6":
-                    Console.Clear();
-                    Console.WriteLine("== Student Enrollments ==");
-                    enrollmentService.DisplayAllEnrollments();
-                    Pause();
+
                     break;
                 case "0":
                     exit = true;
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Try again.");
-                    Pause();
                     break;
             }
+            
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
         }
 
         void RegisterStudent(StudentService service) {
@@ -99,7 +70,7 @@ class Program
             }
 
             service.RegisterStudent(name, email, dob);
-            Pause();
+            
         }
 
         void AddCourse(CourseService service) {
@@ -117,7 +88,7 @@ class Program
             }
 
             service.AddCourse(name, credits);
-            Pause();
+            
         }
 
         void EnrollStudentInCourse(EnrollmentService enrollmentService) {
@@ -128,7 +99,7 @@ class Program
             if (students.Count == 0)
             {
                 Console.WriteLine("No students found.");
-                Pause();
+                
                 return;
             }
 
@@ -146,7 +117,7 @@ class Program
             if (courses.Count == 0)
             {
                 Console.WriteLine("No courses found.");
-                Pause();
+                
                 return;
             }
 
@@ -161,12 +132,7 @@ class Program
             }
 
             enrollmentService.EnrollStudent(studentId, courseId);
-            Pause();
-        }
-
-        void Pause() {
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadLine();
+            
         }
     }
 }

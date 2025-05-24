@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace StudentCourseEnrollment;
 
-public class StudentService {
+public class StudentService : IStudentService {
     private readonly AppDbContext _context;
 
     public StudentService(AppDbContext context) {
@@ -13,20 +13,27 @@ public class StudentService {
          return _context.Students.ToList();
     }
 
-    public bool RegisterStudent(string name, string email, DateTime dateOfBirth) {
+    // public Student? GetStudentById(int id)
+    // {
+        
+    // }
+
+    public void RegisterStudent(string name, string email, DateTime dateOfBirth)
+    {
         if (!IsValidEmail(email))
         {
             Console.WriteLine("Invalid email format.");
-            return false;
+
         }
 
         if (_context.Students.Any(s => s.Email == email))
         {
             Console.WriteLine("A student with this email already exists.");
-            return false;
+
         }
 
-        var student = new Student {
+        var student = new Student
+        {
             Name = name,
             Email = email,
             DateOfBirth = dateOfBirth
@@ -36,7 +43,6 @@ public class StudentService {
         _context.SaveChanges();
 
         Console.WriteLine("Student registered successfully.");
-        return true;
     }
 
     private bool IsValidEmail(string email) {

@@ -1,5 +1,5 @@
 namespace StudentCourseEnrollment;
-public class CourseService {
+public class CourseService : ICourseService {
     private readonly AppDbContext _context;
 
     public CourseService(AppDbContext context) {

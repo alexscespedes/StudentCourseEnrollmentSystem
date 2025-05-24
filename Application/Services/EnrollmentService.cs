@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StudentCourseEnrollment;
 
-public class EnrollmentService {
+public class EnrollmentService : IEnrollmentService {
     private readonly AppDbContext _context;
 
     public EnrollmentService(AppDbContext context) {
