@@ -4,29 +4,26 @@ namespace StudentCourseEnrollment;
 
 public class AppDbContext : DbContext {
     public DbSet<Student> Students => Set<Student>();
-
     public DbSet<Course> Courses => Set<Course>();
-
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        optionsBuilder.UseSqlite("Data Source=Enrollment.db");
+        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Enrollment>()
-            .HasKey(e => new { e.StudentId, e.CourseId });
+        base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Enrollment>()
-            .HasOne(e => e.Student)
-            .WithMany(s => s.Enrollments)
+        modelBuilder.Entity<Student>()
+            .HasMany(s => s.Enrollments)
+            .WithOne(e => e.Student)
             .HasForeignKey(e => e.StudentId);
 
-        modelBuilder.Entity<Enrollment>()
-            .HasOne(e => e.Course)
-            .WithMany(c => c.Enrollments)
+        modelBuilder.Entity<Course>()
+            .HasMany(s => s.Enrollments)
+            .WithOne(e => e.Course)
             .HasForeignKey(e => e.CourseId);
     }
 }
