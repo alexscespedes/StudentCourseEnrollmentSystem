@@ -25,5 +25,8 @@ public class AppDbContext : DbContext {
             .HasMany(s => s.Enrollments)
             .WithOne(e => e.Course)
             .HasForeignKey(e => e.CourseId);
+
+        modelBuilder.Entity<Enrollment>()
+            .HasKey(e => new { e.StudentId, e.CourseId });
     }
 }
