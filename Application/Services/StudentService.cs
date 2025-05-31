@@ -18,16 +18,19 @@ public class StudentService : IStudentService {
         return _context.Students.FirstOrDefault(s => s.Id == id);
     }
 
-    public void RegisterStudent(string name, string email, DateTime dateOfBirth)
+    public bool RegisterStudent(string name, string email, DateTime dateOfBirth)
     {
         if (!IsValidEmail(email))
         {
             Console.WriteLine("Invalid email format.");
+            return false;
+
         }
 
         if (_context.Students.Any(s => s.Email == email))
         {
             Console.WriteLine("A student with this email already exists.");
+            return false;
         }
 
         var student = new Student
@@ -41,6 +44,7 @@ public class StudentService : IStudentService {
         _context.SaveChanges();
 
         Console.WriteLine("Student registered successfully.");
+        return true;
     }
 
     private bool IsValidEmail(string email) {
