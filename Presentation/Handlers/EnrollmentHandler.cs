@@ -20,8 +20,7 @@ public class EnrollmentHandler()
             {
                 case "1":
                     var (studentId, courseId) = EnrollmentConsoleHelper.PromptEnrollmentData();
-                    var success = enrollmentService.EnrollStudent(studentId, courseId);
-                    Console.WriteLine(success ? "Enrollment successful." : "Enrollment failed (check IDs or possible duplicate).");
+                    enrollmentService.EnrollStudent(studentId, courseId);
                     break;
                 case "2":
                     var enrollments = enrollmentService.GetAllEnrollments();

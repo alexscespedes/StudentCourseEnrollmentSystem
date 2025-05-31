@@ -22,7 +22,6 @@ public class CourseHandler
                 case "1":
                     var newCourse = CourseConsoleHelper.PromptCourseData();
                     courseService.AddCourse(newCourse.Name, newCourse.Credits);
-                    Console.WriteLine("Course registered successfully.");
                     break;
                 case "2":
                     var courses = courseService.GetAllCourses();

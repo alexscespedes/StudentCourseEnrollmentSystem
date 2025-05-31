@@ -45,7 +45,7 @@ public static class EnrollmentConsoleHelper
         }
         else
         {
-            Console.WriteLine($"Enrollment found: Student ID = {enrollment.StudentId}, Course ID = {enrollment.CourseId}");
+            Console.WriteLine($"Enrollment found: Student Name = {enrollment.Student.Name}, Course Name = {enrollment.Course.Name}");
         }
 
         return enrollment;

@@ -19,9 +19,6 @@ public static class CourseConsoleHelper
         Console.Write("Credits (e.g., 3): ");
         var credit = int.Parse(Console.ReadLine()!);
 
-        Console.Write("Date of Birth (yyyy-mm-dd): ");
-        var dob = DateTime.Parse(Console.ReadLine()!);
-
         return new Course
         {
             Name = name,

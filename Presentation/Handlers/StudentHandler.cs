@@ -24,7 +24,6 @@ public static class StudentHandler
                 case "1":
                     var newStudent = StudentConsoleHelper.PromptStudentData();
                     studentService.RegisterStudent(newStudent.Name, newStudent.Email, newStudent.DateOfBirth);
-                    Console.WriteLine("Student registered successfully.");
                     break;
 
                 case "2":
