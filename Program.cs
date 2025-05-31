@@ -6,7 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase("StudentCourseEnrollmentDb").Options;
+        var options = new DbContextOptionsBuilder<AppDbContext>().UseSqlite("Data Source=Database/student_course.db").Options;
 
         using var context = new AppDbContext(options);
 
@@ -46,9 +46,6 @@ class Program
                     Console.ReadKey();
                     break;
             }
-            
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadLine();
         }
 
     }
