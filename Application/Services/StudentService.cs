@@ -10,26 +10,24 @@ public class StudentService : IStudentService {
     }
 
     public List<Student> GetAllStudents() {
-         return _context.Students.ToList();
+        return _context.Students.ToList();
     }
 
-    // public Student? GetStudentById(int id)
-    // {
-        
-    // }
+    public Student? GetStudentById(int id)
+    {
+        return _context.Students.FirstOrDefault(s => s.Id == id);
+    }
 
     public void RegisterStudent(string name, string email, DateTime dateOfBirth)
     {
         if (!IsValidEmail(email))
         {
             Console.WriteLine("Invalid email format.");
-
         }
 
         if (_context.Students.Any(s => s.Email == email))
         {
             Console.WriteLine("A student with this email already exists.");
-
         }
 
         var student = new Student

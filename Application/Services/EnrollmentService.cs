@@ -2,14 +2,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace StudentCourseEnrollment;
 
-public class EnrollmentService : IEnrollmentService {
+public class EnrollmentService : IEnrollmentService
+{
     private readonly AppDbContext _context;
 
-    public EnrollmentService(AppDbContext context) {
+    public EnrollmentService(AppDbContext context)
+    {
         _context = context;
     }
 
-    public bool EnrollStudent(int studentId, int courseId) {
+    public bool EnrollStudent(int studentId, int courseId)
+    {
         var student = _context.Students.Include(s => s.Enrollments).FirstOrDefault(s => s.Id == studentId);
 
         var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
@@ -32,7 +35,8 @@ public class EnrollmentService : IEnrollmentService {
             return false;
         }
 
-        var enrollment = new Enrollment {
+        var enrollment = new Enrollment
+        {
             StudentId = studentId,
             CourseId = courseId
         };
@@ -44,29 +48,13 @@ public class EnrollmentService : IEnrollmentService {
         return true;
     }
 
-    public void DisplayAllEnrollments() {
-        var studentWithCourses = _context.Students.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToList();
-
-        if (!studentWithCourses.Any())
-        {
-            Console.WriteLine("No students found.");
-            return;
-        }
-        
-        foreach (var student in studentWithCourses) 
-        {
-            Console.WriteLine($"\nStudent: {student.Name} ({student.Email})");
-            if (student.Enrollments.Count == 0)
-            {
-                Console.WriteLine("No enrollments.");
-            }
-            else 
-            {
-                foreach (var enrollment in student.Enrollments)
-                {
-                    Console.WriteLine($" - {enrollment.Course.Name} ({enrollment.Course.Credits} credits)");
-                }
-            }
-        }
+    public IEnumerable<Enrollment> GetAllEnrollments()
+    {
+        return _context.Enrollments.ToList();
+    }
+    
+    public Enrollment? GetEnrollment(int studentId, int courseId)
+    {
+        return _context.Enrollments.FirstOrDefault(e => e.StudentId == studentId && e.CourseId == courseId);
     }
 }

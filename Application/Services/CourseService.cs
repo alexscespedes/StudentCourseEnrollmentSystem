@@ -1,23 +1,29 @@
 namespace StudentCourseEnrollment;
-public class CourseService : ICourseService {
+
+public class CourseService : ICourseService
+{
     private readonly AppDbContext _context;
 
-    public CourseService(AppDbContext context) {
+    public CourseService(AppDbContext context)
+    {
         _context = context;
     }
 
-    public List<Course> GetAllCourses() {
+    public List<Course> GetAllCourses()
+    {
         return _context.Courses.ToList();
     }
 
-    public bool AddCourse(string name, int credits) {
+    public bool AddCourse(string name, int credits)
+    {
         if (_context.Courses.Any(c => c.Name.ToLower() == name.ToLower()))
         {
             Console.WriteLine("A course with this name already exists.");
             return false;
         }
 
-        var course = new Course {
+        var course = new Course
+        {
             Name = name,
             Credits = credits
         };
@@ -27,5 +33,10 @@ public class CourseService : ICourseService {
 
         Console.WriteLine("Course Added successfully.");
         return true;
+    }
+
+    public Course? GetCourseById(int id)
+    {
+        return _context.Courses.FirstOrDefault(c => c.Id == id);
     }
 }

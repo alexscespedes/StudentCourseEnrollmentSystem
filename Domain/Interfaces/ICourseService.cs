@@ -4,4 +4,5 @@ public interface ICourseService
 {
     bool AddCourse(string name, int credits);
     List<Course> GetAllCourses();
+    Course? GetCourseById(int id);
 }
